@@ -51,6 +51,12 @@ const LoginPage = () => {
       } else {
         toast.error("Something went wrong, please try again!");
       }
+    } finally {
+      setLoading(false);
+      setData({
+        email: "",
+        password: "",
+      });
     }
   };
 
