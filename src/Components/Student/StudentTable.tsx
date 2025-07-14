@@ -103,7 +103,13 @@ const StudentTable = () => {
         </tbody>
       </table>
 
-      {openEditModal && <EditStudent editModalData={editModalData} />}
+      {openEditModal && (
+        <EditStudent
+          editModalData={editModalData}
+          loading={loading}
+          setLoading={setLoading}
+        />
+      )}
     </div>
   );
 };
