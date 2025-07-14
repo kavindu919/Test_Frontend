@@ -6,6 +6,9 @@ import { CiEdit } from "react-icons/ci";
 import EditStudent from "./EditStudent";
 import { MdDeleteOutline } from "react-icons/md";
 import DeleteStudent from "./DeleteStudent";
+import { CiCircleInfo } from "react-icons/ci";
+import SingleStudentDetail from "./SingleStudentDetail";
+import AddStudent from "./AddStudent";
 
 const StudentTable = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -15,7 +18,6 @@ const StudentTable = () => {
   const [editModalData, setEditModalData] = useState<StudentInterface>({
     first_name: "",
     last_name: "",
-    email: "",
     phone: "",
     gender: "",
     birthdate: "",
@@ -23,6 +25,20 @@ const StudentTable = () => {
 
   const [selectId, setSelectId] = useState<string | null>(null);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
+
+  const [openSingleStudentModal, setopenSingleStudentModal] =
+    useState<boolean>(false);
+  const [singleStudentModalData, setsingleStudentModalData] =
+    useState<StudentInterface>({
+      first_name: "",
+      last_name: "",
+      email: "",
+      phone: "",
+      gender: "",
+      birthdate: "",
+    });
+
+  const [openAddModal, setopenAddModal] = useState<boolean>(false);
 
   const fetchData = async () => {
     setLoading(true);
@@ -49,6 +65,15 @@ const StudentTable = () => {
 
   return (
     <div className="relative overflow-x-auto">
+      <div className="flex flex-row items-center justify-between">
+        <button
+          onClick={() => {
+            setopenAddModal(true);
+          }}
+        >
+          Add Student
+        </button>
+      </div>
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
@@ -94,7 +119,6 @@ const StudentTable = () => {
                     setEditModalData({
                       first_name: item.first_name,
                       last_name: item.last_name,
-                      email: item.email,
                       phone: item.phone,
                       gender: item.gender,
                       birthdate: item.birthdate,
@@ -112,6 +136,21 @@ const StudentTable = () => {
                   }}
                 >
                   <MdDeleteOutline />
+                </button>
+                <button
+                  onClick={() => {
+                    setopenSingleStudentModal(true);
+                    setsingleStudentModalData({
+                      first_name: item.first_name,
+                      last_name: item.last_name,
+                      email: item.email,
+                      phone: item.phone,
+                      gender: item.gender,
+                      birthdate: item.birthdate,
+                    });
+                  }}
+                >
+                  <CiCircleInfo />
                 </button>
               </td>
             </tr>
@@ -134,6 +173,18 @@ const StudentTable = () => {
           loading={loading}
           setLoading={setLoading}
           setSelectId={setSelectId}
+        />
+      )}
+
+      {openSingleStudentModal && (
+        <SingleStudentDetail singleStudentModalData={singleStudentModalData} />
+      )}
+
+      {openAddModal && (
+        <AddStudent
+          loading={loading}
+          setLoading={setLoading}
+          setopenAddModal={setopenAddModal}
         />
       )}
     </div>
