@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 interface EditStudentProps {
   editModalData: StudentInterface;
   setLoading: (value: boolean) => void;
+  setOpenEditModal: (value: boolean) => void;
   loading: boolean;
 }
 
@@ -13,6 +14,7 @@ const EditStudent = ({
   editModalData,
   loading,
   setLoading,
+  setOpenEditModal,
 }: EditStudentProps) => {
   const [edit, setEdit] = useState<StudentInterface>({
     ...editModalData,
@@ -64,6 +66,7 @@ const EditStudent = ({
       }
     } finally {
       setLoading(false);
+      setOpenEditModal(false);
     }
   };
 

@@ -4,6 +4,8 @@ import type { StudentInterface } from "../../Interfaces/LoginInterface";
 import { toast } from "react-toastify";
 import { CiEdit } from "react-icons/ci";
 import EditStudent from "./EditStudent";
+import { MdDeleteOutline } from "react-icons/md";
+import DeleteStudent from "./DeleteStudent";
 
 const StudentTable = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -18,6 +20,10 @@ const StudentTable = () => {
     gender: "",
     birthdate: "",
   });
+
+  const [selectId, setSelectId] = useState<string | null>(null);
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
+
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -97,6 +103,16 @@ const StudentTable = () => {
                 >
                   <CiEdit />
                 </button>
+                <button
+                  onClick={() => {
+                    setOpenDeleteModal(true);
+                    if (item.id) {
+                      setSelectId(item.id);
+                    }
+                  }}
+                >
+                  <MdDeleteOutline />
+                </button>
               </td>
             </tr>
           ))}
@@ -108,6 +124,16 @@ const StudentTable = () => {
           editModalData={editModalData}
           loading={loading}
           setLoading={setLoading}
+          setOpenEditModal={setOpenEditModal}
+        />
+      )}
+      {openDeleteModal && (
+        <DeleteStudent
+          setOpenDeleteModal={setOpenDeleteModal}
+          selectId={selectId}
+          loading={loading}
+          setLoading={setLoading}
+          setSelectId={setSelectId}
         />
       )}
     </div>
